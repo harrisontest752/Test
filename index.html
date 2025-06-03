@@ -51,7 +51,7 @@ S<!DOCTYPE html>
       //  headers: { 'Content-Type': 'application/json' }
      // });
 // https://script.google.com/macros/s/AKfycbw0SePsN4LBTKOTVL1k0WfzJZQQRWqBvsqROrp1i9HIhkJNi075Y7AB91wk0fMxu8-e/exec
-      fetch('https://script.google.com/macros/s/AKfycbw0SePsN4LBTKOTVL1k0WfzJZQQRWqBvsqROrp1i9HIhkJNi075Y7AB91wk0fMxu8-e/exec', {
+ const response = await fetch('https://script.google.com/macros/s/AKfycbw0SePsN4LBTKOTVL1k0WfzJZQQRWqBvsqROrp1i9HIhkJNi075Y7AB91wk0fMxu8-e/exec', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ userId, status }),
