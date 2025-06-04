@@ -2,60 +2,23 @@
 <html>
 <head>
   <title>Status Form</title>
-  <meta charset="UTF-8">
-</head>
-<body>
-  <h2>Status Submission Form</h2>
 
-  <form id="statusForm">
-    <label for="userId">Element ID:</label>
-    <input type="text" id="userId" name="userId" required><br><br>
+<form name="submit-to-google-sheet">
+  <input name="email" type="email" placeholder="Email" required>
+  <button type="submit">Send</button>
+</form>
 
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-      <option value="">-- Select Status --</option>
-      <option value="Cut">Cut</option>
-      <option value="Sub">Sub</option>
-      <option value="Frame">Frame</option>
-      <option value="Done">Done</option>
-    </select><br><br>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycby3wX8WfJT3cGHc_ANim1m-SOYzRzEBoPBKP6uDm49Py2T7kiT2yarPYYkm7wvGdyWr/exec'
+  const form = document.forms['submit-to-google-sheet']
 
-    <button type="submit">Submit</button>
-  </form>
-
-  <p id="response"></p>
-
-  <script>
-    // Pre-fill userId from ?id= query string
-    window.onload = () => {
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get('id');
-      if (userId) document.getElementById('userId').value = userId;
-    };
-
-    // Handle form submission
-    document.getElementById('statusForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const userId = document.getElementById('userId').value;
-      const status = document.getElementById('status').value;
-      const responseEl = document.getElementById('response');
-      responseEl.textContent = 'Submitting...';
-
-      try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbxhe35YZz2w_7vuA0zvuBxUipVh5rJPMDhrFhmlMs2DsEO70N1A6mTfi1pEmVy9C--5/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, status }),
-          mode: 'no-cors'
-        });
-
-        const data = await response.json();
-        responseEl.textContent = data.success ? 'Submitted successfully!' : `Error: ${data.error}`;
-      } catch (err) {
-        responseEl.textContent = 'Failed to submit. ' + err.message;
-      }
-    });
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+  })
+</script>
   </script>
 </body>
 </html>
